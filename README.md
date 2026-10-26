@@ -1,42 +1,35 @@
-# Sistem Penggajian Karyawan (PBO Case Study)
+# Studi Kasus PBO: Sistem Penggajian Karyawan
 
-Proyek ini dibuat untuk memenuhi tugas **Studi Kasus dan Diskusi Pemrograman Berbasis Objek (PBO)**. Program ini mensimulasikan sistem penggajian sederhana dengan menerapkan konsep-konsep utama PBO dalam bahasa pemrosesan Java.
+Proyek ini dibuat untuk memenuhi tugas **Studi Kasus dan Diskusi Pemrograman Berbasis Objek (PBO)**. Program ini mensimulasikan sistem perhitungan gaji karyawan menggunakan konsep **Abstract Class**, **Inheritance**, dan **Polymorphism** dalam bahasa Java.
 
 ---
 
-## 📌 Konsep PBO yang Diterapkan
+## 📌 Penjelasan Konsep PBO
 
-1. **Interface (`Cetakable`)**
-   - Mendefinisikan kontrak/perilaku tambahan `cetakLaporan()` yang wajib diimplementasikan oleh kelas yang menggunakannya.
-2. **Abstract Class (`Karyawan`)**
-   - Bertindak sebagai *template* dasar untuk semua jenis karyawan.
-   - Memiliki *abstract method* `hitungGaji()` yang pemrosesan spesifiknya diserahkan ke kelas turunan.
-   - Mengimplementasikan interface `Cetakable`.
-3. **Inheritance (Pewarisan)**
-   - Kelas `KaryawanTetap` dan `KaryawanKontrak` menurunkan atribut (`nama`, `id`) dan method dari kelas induk `Karyawan`.
-4. **Polymorphism (Banyak Bentuk)**
-   - **Method Overriding**: Kelas `KaryawanTetap` dan `KaryawanKontrak` meng-override method `hitungGaji()` sesuai dengan rumus gaji masing-masing.
-   - **Dynamic Binding**: Penggunaan variabel bertipe kelas induk (`Karyawan`) untuk menampung instans dari kelas turunan pada saat runtime.
+1. **Abstract Class (`Karyawan`)**
+   - Berfungsi sebagai kelas induk (*parent class*) umum yang tidak diinstansiasi secara langsung.
+   - Memiliki *abstract method* `hitungGaji()` yang mewajibkan setiap kelas turunan (*subclass*) untuk mengimplementasikan perhitungan gajinya masing-masing.
+
+2. **Inheritance (Pewarisan)**
+   - Kelas `KaryawanTetap` dan `KaryawanKontrak` mewarisi atribut (`nama`, `id`) dan method (`tampilkanProfil()`) dari kelas induk `Karyawan`.
+
+3. **Polymorphism (Banyak Bentuk)**
+   - **Method Overriding**: Method `hitungGaji()` di-override oleh kelas `KaryawanTetap` (gaji pokok + bonus) dan `KaryawanKontrak` (tarif × jam kerja).
+   - **Dynamic Binding**: Variabel bertipe kelas induk `Karyawan` digunakan pada `Main.java` untuk menampung objek dari `KaryawanTetap` dan `KaryawanKontrak`.
 
 ---
 
 ## 📐 Class Diagram
 
-### Visual Diagram (Mermaid)
 ```mermaid
 classDiagram
-    class Cetakable {
-        <<interface>>
-        +cetakLaporan()* void
-    }
-
     class Karyawan {
         <<abstract>>
         #String nama
         #String id
         +Karyawan(String nama, String id)
         +hitungGaji()* double
-        +cetakLaporan() void
+        +tampilkanProfil() void
     }
 
     class KaryawanTetap {
@@ -53,6 +46,5 @@ classDiagram
         +hitungGaji() double
     }
 
-    Cetakable <|.. Karyawan : Implements
     Karyawan <|-- KaryawanTetap : Inherits
     Karyawan <|-- KaryawanKontrak : Inherits
