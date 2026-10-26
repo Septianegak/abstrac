@@ -1,13 +1,58 @@
-# Studi Kasus: Sistem Penggajian Karyawan
+# Sistem Penggajian Karyawan (PBO Case Study)
 
-## Penerapan Konsep PBO:
-1. **Abstract Class (`Karyawan`)**:
-   - Class `Karyawan` diset `abstract` karena representasi umum dan tidak diinstansiasi langsung.
-   - Punya `abstract method` `hitungGaji()` yang mewajibkan tiap subclass menghitung gajinya sendiri.
+Proyek ini dibuat untuk memenuhi tugas **Studi Kasus dan Diskusi Pemrograman Berbasis Objek (PBO)**. Program ini mensimulasikan sistem penggajian sederhana dengan menerapkan konsep-konsep utama PBO dalam bahasa pemrosesan Java.
 
-2. **Inheritance**:
-   - Class `KaryawanTetap` dan `KaryawanKontrak` menurunkan atribut `nama` dan `id` serta method `tampilkanProfil()` dari class parent `Karyawan`.
+---
 
-3. **Polymorphism**:
-   - Terjadi overriding method `hitungGaji()` sesuai kondisi masing-masing subclass (Gaji Tetap = Pokok + Bonus; Gaji Kontrak = Tarif x Jam Kerja).
-   - Pada `Main.java`, objek dipanggil lewat referensi class parent (`Karyawan`), tetapi mengeksekusi perhitungan gaji milik subclass-nya masing-masing.
+## 📌 Konsep PBO yang Diterapkan
+
+1. **Interface (`Cetakable`)**
+   - Mendefinisikan kontrak/perilaku tambahan `cetakLaporan()` yang wajib diimplementasikan oleh kelas yang menggunakannya.
+2. **Abstract Class (`Karyawan`)**
+   - Bertindak sebagai *template* dasar untuk semua jenis karyawan.
+   - Memiliki *abstract method* `hitungGaji()` yang pemrosesan spesifiknya diserahkan ke kelas turunan.
+   - Mengimplementasikan interface `Cetakable`.
+3. **Inheritance (Pewarisan)**
+   - Kelas `KaryawanTetap` dan `KaryawanKontrak` menurunkan atribut (`nama`, `id`) dan method dari kelas induk `Karyawan`.
+4. **Polymorphism (Banyak Bentuk)**
+   - **Method Overriding**: Kelas `KaryawanTetap` dan `KaryawanKontrak` meng-override method `hitungGaji()` sesuai dengan rumus gaji masing-masing.
+   - **Dynamic Binding**: Penggunaan variabel bertipe kelas induk (`Karyawan`) untuk menampung instans dari kelas turunan pada saat runtime.
+
+---
+
+## 📐 Class Diagram
+
+### Visual Diagram (Mermaid)
+```mermaid
+classDiagram
+    class Cetakable {
+        <<interface>>
+        +cetakLaporan()* void
+    }
+
+    class Karyawan {
+        <<abstract>>
+        #String nama
+        #String id
+        +Karyawan(String nama, String id)
+        +hitungGaji()* double
+        +cetakLaporan() void
+    }
+
+    class KaryawanTetap {
+        -double gajiPokok
+        -double bonus
+        +KaryawanTetap(String nama, String id, double gajiPokok, double bonus)
+        +hitungGaji() double
+    }
+
+    class KaryawanKontrak {
+        -double tarifPerJam
+        -int jamKerja
+        +KaryawanKontrak(String nama, String id, double tarifPerJam, int jamKerja)
+        +hitungGaji() double
+    }
+
+    Cetakable <|.. Karyawan : Implements
+    Karyawan <|-- KaryawanTetap : Inherits
+    Karyawan <|-- KaryawanKontrak : Inherits
